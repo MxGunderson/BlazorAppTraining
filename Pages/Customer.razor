@@ -1,0 +1,102 @@
+﻿@page "/customerdata"
+@using BlazorAppSandBox.Data;
+@using BlazorAppSandBox.Services;
+@inherits OwningComponentBase<CustomerService>
+<h1>Customers</h1>
+
+<button class="btn-primary" @onclick="Showpopup">Add new Customer</button>
+@if (popup)
+{
+    <div class="modal" tabindex="-1" style="display:block;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Customer Name Table</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" @onclick="Closepopup">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <EditForm Model="Objinsert" OnValidSubmit="Insertrec">
+                    <div class="modal-body">
+                        <table border="1">
+                            <tr>
+                                <td>First Name</td>
+                                <td><input type="text" placeholder="Enter Customer Name..." @bind="Objinsert.FirstName" /></td>
+                            </tr>
+                            <tr>
+                                <td>Midde Name</td>
+                                <td><input type="text" placeholder="Enter Customer Name..." @bind="Objinsert.MiddleName" /></td>
+                            </tr>
+                            <tr>
+                                <td>Last Name</td>
+                                <td><input type="text" placeholder="Enter Customer Name..." @bind="Objinsert.LastName" /></td>
+                            </tr>
+                            <tr>
+                                <td>Email Address</td>
+                                <td><input type="text" placeholder="Enter Customer Name..." @bind="Objinsert.EmailAddress" /></td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" @onclick="Closepopup">Close</button>
+                        <button type="submit" class="btn btn-primary" @onclick="Closepopup">Save Changes</button>
+                    </div>
+                </EditForm>
+            </div>
+        </div>
+    </div>
+}
+<table class="table">
+    <tr>
+        <th>Customer ID</th>
+        <th>First Name</th>
+        <th>Middle Name</th>
+        <th>Last Name</th>
+        <th>Email Address</th>
+    </tr>
+    @foreach (var item in Displaydata)
+    {
+        <tr>
+            <td>@item.CustomerID</td>
+            <td>@item.FirstName</td>
+            <td>@item.MiddleName</td>
+            <td>@item.LastName</td>
+            <td>@item.EmailAddress</td>
+
+        </tr>
+    }
+</table>
+
+<p>Hello World</p>
+
+@code {
+    List<CustomerClass> Displaydata;
+    CustomerClass Objinsert = new CustomerClass();
+    bool popup = false;
+
+    void Showpopup()
+    {
+        popup = true;
+    }
+
+    void Closepopup()
+    {
+        popup = false;
+    }
+
+    protected override void OnInitialized()
+    {
+        Displaydata = Service.GetCustomers();
+    }
+
+    void Insertrec()
+    {
+        Objinsert.CustomerID = 0;
+        Service.Addcustomer(Objinsert);
+        Displaydata = Service.GetCustomers();
+    }
+
+}
+
+    //40:39 (https://www.youtube.com/watch?v=7X-2-7XbuGU&list=LL&index=1)

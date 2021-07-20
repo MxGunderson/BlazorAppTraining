@@ -1,0 +1,8 @@
+{
+  "runtimeOptions": {
+    "additionalProbingPaths": [
+      "C:\\Users\\Gundy\\.dotnet\\store\\|arch|\\|tfm|",
+      "C:\\Users\\Gundy\\.nuget\\packages"
+    ]
+  }
+}
